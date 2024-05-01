@@ -1,0 +1,39 @@
+# Variabili
+ATARI_EMULATOR_PATH :=emulatori
+COMMDORE_EMULATOR_PATH :=emulatori
+BASIC_FILE_PATH :=samples/basic
+
+# Target predefinito
+default:
+    @echo "Utilizzo: make <nome_programma> [--nome emulatore]"
+
+# Target per eseguire il programma BASIC
+hello:
+    @echo "Esecuzione del programma hello.bas"
+    @dosbox -c "mount c samples/basic" \
+             -c "c:" \
+             -c "type hello.bas | clip" \
+             -c "exit"
+
+    @echo "Copiato il file BASIC nel clipboard"
+    @echo "Apri l'emulatore Atari e incolla il contenuto del clipboard nel BASIC editor"
+
+# Target per eseguire il programma BASIC su emulatore Atari
+hello-atari:
+    @echo "Avvio dell'emulatore Atari"
+    @start "" "$(ATARI_EMULATOR_PATH)"
+
+    @echo "Attendi che l'emulatore Atari si apra..."
+    @timeout /t 5 > nul
+
+    @echo "Esecuzione del programma hello.bas su emulatore Atari"
+    @xdotool key --delay 100 ctrl+v
+
+    @echo "Copiato il file BASIC nel clipboard"
+    @echo "Apri l'emulatore Atari e incolla il contenuto del clipboard nel BASIC editor"
+
+# Aiuto
+help:
+    @echo "Utilizzo:"
+    @echo "  make <nome_programma> [--nome emulatore]     Esegui un programma BASIC"
+    @echo "  make help                            Visualizza questo messaggio di aiuto"
